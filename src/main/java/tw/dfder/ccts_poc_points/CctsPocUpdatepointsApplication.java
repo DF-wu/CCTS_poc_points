@@ -1,4 +1,4 @@
-package tw.dfder.ccts_poc_updatepoints;
+package tw.dfder.ccts_poc_points;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

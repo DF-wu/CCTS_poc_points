@@ -1,4 +1,4 @@
-package tw.dfder.ccts_poc_updatepoints.configuration;
+package tw.dfder.ccts_poc_points.configuration;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;

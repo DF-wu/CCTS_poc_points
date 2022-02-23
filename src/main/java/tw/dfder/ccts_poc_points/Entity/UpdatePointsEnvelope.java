@@ -1,12 +1,12 @@
-package tw.dfder.ccts_poc_updatepoints.Entity;
+package tw.dfder.ccts_poc_points.Entity;
 
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
-@Document(collection = "updatePointsEnvelope")
-public class updatePointsEnvelope {
+@Document(collection = "UpdatePointsEnvelope")
+public class UpdatePointsEnvelope {
     @Id
     private String Id;
     @Field

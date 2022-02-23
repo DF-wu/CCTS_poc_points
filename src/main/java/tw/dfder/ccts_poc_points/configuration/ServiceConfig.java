@@ -1,4 +1,4 @@
-package tw.dfder.ccts_poc_updatepoints.configuration;
+package tw.dfder.ccts_poc_points.configuration;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
