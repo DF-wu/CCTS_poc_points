@@ -16,6 +16,10 @@ public class UpdatePointsEnvelope {
     @Field
     private int points;
 
+
+    @Field
+    private boolean isValid;
+
     public String getId() {
         return Id;
     }
@@ -47,4 +51,13 @@ public class UpdatePointsEnvelope {
     public void setPoints(int points) {
         this.points = points;
     }
+
+    public boolean isValid() {
+        return isValid;
+    }
+
+    public void setValid(boolean valid) {
+        isValid = valid;
+    }
+
 }
