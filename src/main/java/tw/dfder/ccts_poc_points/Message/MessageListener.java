@@ -9,12 +9,10 @@ import org.springframework.amqp.support.AmqpHeaders;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.stereotype.Service;
-import tw.dfder.ccts_poc_payment.Entity.PaymentMessageEnvelope;
-import tw.dfder.ccts_poc_payment.configuration.RabbitmqConfig;
-import tw.dfder.ccts_poc_payment.configuration.ServiceConfig;
-import tw.dfder.ccts_poc_payment.repository.PaymentRepo;
 import tw.dfder.ccts_poc_points.Entity.UpdatePointsEnvelope;
 import tw.dfder.ccts_poc_points.configuration.RabbitmqConfig;
+import tw.dfder.ccts_poc_points.configuration.ServiceConfig;
+import tw.dfder.ccts_poc_points.repository.PointRepository;
 
 import java.io.IOException;
 
@@ -23,11 +21,11 @@ import java.io.IOException;
 public class MessageListener {
     private final Gson gson;
     private final CCTSMessageSender sender;
-    private final PaymentRepo repo;
+    private final PointRepository repo;
 
 
     @Autowired
-    public MessageListener(Gson gson, CCTSMessageSender sender, PaymentRepo repo) {
+    public MessageListener(Gson gson, CCTSMessageSender sender, PointRepository repo) {
         this.gson = gson;
         this.sender = sender;
         this.repo = repo;
@@ -39,12 +37,28 @@ public class MessageListener {
     })
     public void messageReceiver(String msg, @Header(AmqpHeaders.DELIVERY_TAG) long deliveryTag, Channel ch) throws IOException {
 //        decode the message
-        UpdatePointsEnvelope message = gson.fromJson(msg, UpdatePointsEnvelope.class);
+        UpdatePointsEnvelope updatePointsEnvelope = gson.fromJson(msg, UpdatePointsEnvelope.class);
 
+        ch.basicAck(deliveryTag, false);
+        // add invalid test trigger
+        if(updatePointsEnvelope.getPoints() < -1000 || updatePointsEnvelope.getPoints() > 1000){
+            compensatingProcess(updatePointsEnvelope);
+        }else if (updatePointsEnvelope.getPaymentId() != null && updatePointsEnvelope.getBuyerId() != null && updatePointsEnvelope.isValid()){
+            updatePointsEnvelope.setValid(true);
+            repo.save(updatePointsEnvelope);
+            sender.sendRequestMessage(
+                    gson.toJson(updatePointsEnvelope),
+                    "orchestrator",
+                    RabbitmqConfig.ROUTING_UPDATEPOINT_RESPONSE,
+                    ServiceConfig.serviceName
+            );
+        }
 
+    }
 
-
-
+    public void compensatingProcess(UpdatePointsEnvelope updatePointsEnvelope){
+        // TODO:
+        System.out.println("In compensating process branch");
     }
 
 
