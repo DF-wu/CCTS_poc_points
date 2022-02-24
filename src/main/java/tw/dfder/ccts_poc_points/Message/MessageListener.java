@@ -52,6 +52,8 @@ public class MessageListener {
                     RabbitmqConfig.ROUTING_UPDATEPOINT_RESPONSE,
                     ServiceConfig.serviceName
             );
+
+            System.out.println("Success!!" + updatePointsEnvelope);
         }
 
     }
