@@ -43,9 +43,16 @@ public class MessageListener {
         // add invalid test trigger
         if(updatePointsEnvelope.getPoints() < -1000 || updatePointsEnvelope.getPoints() > 1000){
             compensatingProcess(updatePointsEnvelope);
+            System.out.println("send rollback result");
         }else if (updatePointsEnvelope.getPaymentId() != null && updatePointsEnvelope.getBuyerId() != null && updatePointsEnvelope.isValid()){
-            updatePointsEnvelope.setValid(true);
-            repo.save(updatePointsEnvelope);
+            UpdatePointsEnvelope response = new UpdatePointsEnvelope();
+            response.setPoints(updatePointsEnvelope.getPoints() * ServiceConfig.ratio);
+            response.setBuyerId(updatePointsEnvelope.getBuyerId());
+            response.setPaymentId(updatePointsEnvelope.getPaymentId());
+            response.setCommunicationType("success");
+            response.setValid(true);
+
+
             sender.sendRequestMessage(
                     gson.toJson(updatePointsEnvelope),
                     "orchestrator",
@@ -61,6 +68,15 @@ public class MessageListener {
     public void compensatingProcess(UpdatePointsEnvelope updatePointsEnvelope){
         // TODO:
         System.out.println("In compensating process branch");
+        updatePointsEnvelope.setCommunicationType("rollback");
+        sender.sendRequestMessage(
+                gson.toJson(updatePointsEnvelope),
+                "orchestrator",
+                RabbitmqConfig.ROUTING_UPDATEPOINT_RESPONSE,
+                ServiceConfig.serviceName
+        );
+
+
     }
 
 

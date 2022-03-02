@@ -12,13 +12,15 @@ public class UpdatePointsEnvelope {
     @Field
     private String paymentId;
     @Field
-    private String BuyerId;
+    private String buyerId;
     @Field
     private int points;
-
-
     @Field
     private boolean isValid;
+
+    // "request" , "success", "fail"
+    @Field
+    private String communicationType;
 
     public String getId() {
         return Id;
@@ -37,11 +39,11 @@ public class UpdatePointsEnvelope {
     }
 
     public String getBuyerId() {
-        return BuyerId;
+        return buyerId;
     }
 
     public void setBuyerId(String buyerId) {
-        BuyerId = buyerId;
+        this.buyerId = buyerId;
     }
 
     public int getPoints() {
@@ -60,4 +62,11 @@ public class UpdatePointsEnvelope {
         isValid = valid;
     }
 
+    public String getCommunicationType() {
+        return communicationType;
+    }
+
+    public void setCommunicationType(String communicationType) {
+        this.communicationType = communicationType;
+    }
 }
