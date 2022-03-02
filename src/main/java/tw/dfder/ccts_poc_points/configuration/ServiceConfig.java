@@ -21,4 +21,7 @@ public class ServiceConfig {
     @Value("${serviceInfo.destinations}")
     public static List<String> destinations;
 
+    @Value("${serviceInfo.pointRatio}")
+    public static int ratio;
+
 }
