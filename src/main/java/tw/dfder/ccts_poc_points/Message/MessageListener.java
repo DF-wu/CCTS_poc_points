@@ -54,7 +54,7 @@ public class MessageListener {
 
 
             sender.sendRequestMessage(
-                    gson.toJson(updatePointsEnvelope),
+                    gson.toJson(response),
                     "orchestrator",
                     RabbitmqConfig.ROUTING_UPDATEPOINT_RESPONSE,
                     ServiceConfig.serviceName
