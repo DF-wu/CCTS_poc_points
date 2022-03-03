@@ -1,5 +1,5 @@
 server:
-  port: 58082
+  port: 58086
 serviceInfo:
   name: "pointService"
   destinations:
