@@ -22,13 +22,14 @@ public class MessageListener {
     private final Gson gson;
     private final CCTSMessageSender sender;
     private final PointRepository repo;
-
+    private final  ServiceConfig serviceConfig;
 
     @Autowired
-    public MessageListener(Gson gson, CCTSMessageSender sender, PointRepository repo) {
+    public MessageListener(Gson gson, CCTSMessageSender sender, PointRepository repo, ServiceConfig serviceConfig) {
         this.gson = gson;
         this.sender = sender;
         this.repo = repo;
+        this.serviceConfig = serviceConfig;
     }
 
 
@@ -46,7 +47,7 @@ public class MessageListener {
             System.out.println("send rollback result");
         }else if (updatePointsEnvelope.getPaymentId() != null && updatePointsEnvelope.getBuyerId() != null && updatePointsEnvelope.isValid()){
             UpdatePointsEnvelope response = new UpdatePointsEnvelope();
-            response.setPoints(updatePointsEnvelope.getPoints() * ServiceConfig.ratio);
+            response.setPoints(updatePointsEnvelope.getPoints() * serviceConfig.ratio);
             response.setBuyerId(updatePointsEnvelope.getBuyerId());
             response.setPaymentId(updatePointsEnvelope.getPaymentId());
             response.setCommunicationType("success");
@@ -57,7 +58,7 @@ public class MessageListener {
                     gson.toJson(response),
                     "orchestrator",
                     RabbitmqConfig.ROUTING_UPDATEPOINT_RESPONSE,
-                    ServiceConfig.serviceName
+                    serviceConfig.serviceName
             );
 
             System.out.println("Success!!" + updatePointsEnvelope);
@@ -73,7 +74,7 @@ public class MessageListener {
                 gson.toJson(updatePointsEnvelope),
                 "orchestrator",
                 RabbitmqConfig.ROUTING_UPDATEPOINT_RESPONSE,
-                ServiceConfig.serviceName
+                serviceConfig.serviceName
         );
 
 

@@ -13,15 +13,14 @@ import java.util.List;
 @Configuration
 public class ServiceConfig {
     @Value("${serviceInfo.name}")
-    public static String serviceName;
-//
+    public String serviceName;
 //    @Value("${serviceInfo.pact}")
 //    public static String correspondingPact;
 
     @Value("${serviceInfo.destinations}")
-    public static List<String> destinations;
+    public List<String> destinations;
 
     @Value("${serviceInfo.pointRatio}")
-    public static int ratio;
+    public int ratio;
 
 }
