@@ -47,7 +47,7 @@ public class MessageListener {
             System.out.println("send rollback result");
         }else if (updatePointsEnvelope.getPaymentId() != null && updatePointsEnvelope.getBuyerId() != null && updatePointsEnvelope.isValid()){
             UpdatePointsEnvelope response = new UpdatePointsEnvelope();
-            response.setPoints(updatePointsEnvelope.getPoints() * serviceConfig.ratio);
+            response.setPoints(updatePointsEnvelope.getPoints() * serviceConfig.pointRatio);
             response.setBuyerId(updatePointsEnvelope.getBuyerId());
             response.setPaymentId(updatePointsEnvelope.getPaymentId());
             response.setCommunicationType("success");
