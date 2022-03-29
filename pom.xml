@@ -9,8 +9,8 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>tw.dfder</groupId>
-    <artifactId>CCTS_poc_updatepoints</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <artifactId>CCTS_poc_points</artifactId>
+    <version>0.0.1</version>
     <name>CCTS_poc_updatepoints</name>
     <description>CCTS_poc_updatepoints</description>
     <properties>
