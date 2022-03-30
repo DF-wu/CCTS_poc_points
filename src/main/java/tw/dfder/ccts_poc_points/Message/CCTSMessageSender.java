@@ -22,6 +22,7 @@ public class CCTSMessageSender {
         this.serviceConfig = serviceConfig;
     }
 
+
     public boolean sendRequestMessage(String message, String destination, String routingKey, String pactName){
 //        routingKey : routing key defined in RabbitmqConfig.java
 //        destination is the corresponding service name
