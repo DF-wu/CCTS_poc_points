@@ -50,7 +50,7 @@ public class ToOrchestratorTest {
         updatePointsEnvelope.setBuyerId(UUID.randomUUID().toString());
         updatePointsEnvelope.setPoints((int) (Math.random()*1000));
         updatePointsEnvelope.setValid(true);
-        updatePointsEnvelope.setCommunicationType("response");
+        updatePointsEnvelope.setCommunicationType("success");
 
         HashMap<String, String> props = new HashMap<>();
         props.put("source", "pointService");
