@@ -24,10 +24,10 @@ public class points_ConsumerTest {
     @Pact(consumer = "pointService")
     public MessagePact validatePointMessageSenderContractBuilder(MessagePactBuilder builder){
         return builder
-                .expectsToReceive("update point message")
+                .expectsToReceive("t-orc-point-01")
                 .withMetadata( m -> {
-                    m.add("source", "orchestrator");
-                    m.add("destination", "pointService");
+                    m.add("provider", "orchestrator");
+                    m.add("consumer", "pointService");
                 })
                 .toPact();
 
@@ -41,8 +41,8 @@ public class points_ConsumerTest {
         assertThat(messages).isNotEmpty();
         // 驗header
         messages.forEach(m -> {
-            assertThat(m.getMetadata()).hasFieldOrProperty("source");
-            assertThat(m.getMetadata()).hasFieldOrProperty("destination");
+            assertThat(m.getMetadata()).hasFieldOrProperty("provider");
+            assertThat(m.getMetadata()).hasFieldOrProperty("consumer");
             });
 
     }

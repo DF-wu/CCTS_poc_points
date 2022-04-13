@@ -41,7 +41,7 @@ public class ToOrchestratorTest {
     }
 
 
-    @PactVerifyProvider("response update point")
+    @PactVerifyProvider("t-point-orc-01")
     public MessageAndMetadata verifyMessageForOrder() {
 
         Gson gson = new Gson();
@@ -53,8 +53,8 @@ public class ToOrchestratorTest {
         updatePointsEnvelope.setCommunicationType("success");
 
         HashMap<String, String> props = new HashMap<>();
-        props.put("source", "pointService");
-        props.put("destination","orchestrator");
+        props.put("provider", "pointService");
+        props.put("consumer","orchestrator");
         return new MessageAndMetadata(gson.toJson(updatePointsEnvelope).getBytes(), props);
     }
 
