@@ -11,7 +11,7 @@ import java.util.List;
  * @version v2
  */
 @Component
-@ConfigurationProperties(prefix = "serviceInfo")
+@ConfigurationProperties(prefix = "serviceinfo")
 public class ServiceConfig {
     public String serviceName;
 //

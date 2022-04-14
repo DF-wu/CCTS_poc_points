@@ -1,6 +1,6 @@
 server:
   port: 58086
-serviceInfo:
+serviceinfo:
   name: "pointService"
   destinations:
     - paymentService
