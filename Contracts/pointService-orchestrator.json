@@ -5,6 +5,25 @@
   "messages": [
     {
       "description": "t-orc-point-01",
+      "metaData": {
+        "consumer": "pointService",
+        "provider": "orchestrator"
+      }
+    },
+    {
+      "description": "t-orc-point-02",
+      "generators": {
+        "metadata": {
+
+        }
+      },
+      "metaData": {
+        "consumer": "pointService",
+        "provider": "orchestrator"
+      }
+    },
+    {
+      "description": "t-orc-point-03",
       "generators": {
         "metadata": {
 
