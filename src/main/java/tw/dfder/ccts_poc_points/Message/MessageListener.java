@@ -42,7 +42,7 @@ public class MessageListener {
 
         ch.basicAck(deliveryTag, false);
         // add invalid test trigger
-        if(updatePointsEnvelope.getPoints() < -1000 || updatePointsEnvelope.getPoints() > 1000) {
+        if(isInTheValidAmountRange(updatePointsEnvelope) && updatePointsEnvelope.getCommunicationType().equals("request")) {
             // invalid , retrun invaid result
             sendFailResult(updatePointsEnvelope);
             System.out.println("send rollback result");
@@ -70,6 +70,10 @@ public class MessageListener {
             System.out.println("Success!!" + updatePointsEnvelope);
         }
 
+    }
+
+    private boolean isInTheValidAmountRange(UpdatePointsEnvelope updatePointsEnvelope) {
+        return updatePointsEnvelope.getPoints() < -1000 || updatePointsEnvelope.getPoints() > 1000;
     }
 
     private void sendFailResult(UpdatePointsEnvelope updatePointsEnvelope) {
