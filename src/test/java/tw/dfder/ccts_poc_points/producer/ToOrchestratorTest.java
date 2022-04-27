@@ -37,7 +37,7 @@ public class ToOrchestratorTest {
     void before(PactVerificationContext context) {
         context.setTarget(new MessageTestTarget());
         System.setProperty("pact.verifier.publishResults", "true");
-        System.setProperty("pact.provider.version", "v0.2");
+        System.setProperty("pact.provider.version", "v0.3");
     }
 
 
@@ -58,5 +58,41 @@ public class ToOrchestratorTest {
         return new MessageAndMetadata(gson.toJson(updatePointsEnvelope).getBytes(), props);
     }
 
+
+    @PactVerifyProvider("t-point-orc-02")
+    public MessageAndMetadata verifyMessageForOrder02() {
+
+        Gson gson = new Gson();
+        UpdatePointsEnvelope updatePointsEnvelope = new UpdatePointsEnvelope();
+        updatePointsEnvelope.setPaymentId(UUID.randomUUID().toString());
+        updatePointsEnvelope.setBuyerId(UUID.randomUUID().toString());
+        updatePointsEnvelope.setPoints((int) (Math.random()*1000));
+        updatePointsEnvelope.setValid(true);
+        updatePointsEnvelope.setCommunicationType("success");
+
+        HashMap<String, String> props = new HashMap<>();
+        props.put("provider", "pointService");
+        props.put("consumer","orchestrator");
+        return new MessageAndMetadata(gson.toJson(updatePointsEnvelope).getBytes(), props);
+    }
+
+
+
+    @PactVerifyProvider("t-point-orc-03")
+    public MessageAndMetadata verifyMessageForOrder03() {
+
+        Gson gson = new Gson();
+        UpdatePointsEnvelope updatePointsEnvelope = new UpdatePointsEnvelope();
+        updatePointsEnvelope.setPaymentId(UUID.randomUUID().toString());
+        updatePointsEnvelope.setBuyerId(UUID.randomUUID().toString());
+        updatePointsEnvelope.setPoints((int) (Math.random()*1000));
+        updatePointsEnvelope.setValid(true);
+        updatePointsEnvelope.setCommunicationType("success");
+
+        HashMap<String, String> props = new HashMap<>();
+        props.put("provider", "pointService");
+        props.put("consumer","orchestrator");
+        return new MessageAndMetadata(gson.toJson(updatePointsEnvelope).getBytes(), props);
+    }
 
 }

@@ -30,8 +30,32 @@ public class points_ConsumerTest {
                     m.add("consumer", "pointService");
                 })
                 .toPact();
-
     }
+
+
+    @Pact(consumer = "pointService")
+    public MessagePact validatePointMessageSenderContractBuilder02(MessagePactBuilder builder){
+        return builder
+                .expectsToReceive("t-orc-point-02")
+                .withMetadata( m -> {
+                    m.add("provider", "orchestrator");
+                    m.add("consumer", "pointService");
+                })
+                .toPact();
+    }
+
+
+    @Pact(consumer = "pointService")
+    public MessagePact validatePointMessageSenderContractBuilder03(MessagePactBuilder builder){
+        return builder
+                .expectsToReceive("t-orc-point-03")
+                .withMetadata( m -> {
+                    m.add("provider", "orchestrator");
+                    m.add("consumer", "pointService");
+                })
+                .toPact();
+    }
+
 
     @Test
     @PactTestFor(pactMethod = "validatePointMessageSenderContractBuilder")
@@ -44,7 +68,32 @@ public class points_ConsumerTest {
             assertThat(m.getMetadata()).hasFieldOrProperty("provider");
             assertThat(m.getMetadata()).hasFieldOrProperty("consumer");
             });
+    }
 
+    @Test
+    @PactTestFor(pactMethod = "validatePointMessageSenderContractBuilder02")
+    public void validatePointMessageSenderContractBuilderTest02(List<Message> messages){
+
+        // 起碼有上面的案例吧
+        assertThat(messages).isNotEmpty();
+        // 驗header
+        messages.forEach(m -> {
+            assertThat(m.getMetadata()).hasFieldOrProperty("provider");
+            assertThat(m.getMetadata()).hasFieldOrProperty("consumer");
+        });
+    }
+
+    @Test
+    @PactTestFor(pactMethod = "validatePointMessageSenderContractBuilder03")
+    public void validatePointMessageSenderContractBuilderTest03(List<Message> messages){
+
+        // 起碼有上面的案例吧
+        assertThat(messages).isNotEmpty();
+        // 驗header
+        messages.forEach(m -> {
+            assertThat(m.getMetadata()).hasFieldOrProperty("provider");
+            assertThat(m.getMetadata()).hasFieldOrProperty("consumer");
+        });
     }
 
 
