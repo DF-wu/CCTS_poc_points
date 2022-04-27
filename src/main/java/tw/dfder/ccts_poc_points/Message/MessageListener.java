@@ -42,10 +42,16 @@ public class MessageListener {
 
         ch.basicAck(deliveryTag, false);
         // add invalid test trigger
-        if(updatePointsEnvelope.getPoints() < -1000 || updatePointsEnvelope.getPoints() > 1000){
-            compensatingProcess(updatePointsEnvelope);
+        if(updatePointsEnvelope.getPoints() < -1000 || updatePointsEnvelope.getPoints() > 1000) {
+            // invalid , retrun invaid result
+            sendFailResult(updatePointsEnvelope);
             System.out.println("send rollback result");
-        }else if (updatePointsEnvelope.getPaymentId() != null && updatePointsEnvelope.getBuyerId() != null && updatePointsEnvelope.isValid()){
+        }else if (updatePointsEnvelope.getCommunicationType().equals("rollback")){
+            compensatingProcess(updatePointsEnvelope);
+        }else if (updatePointsEnvelope.getPaymentId() != null
+                && updatePointsEnvelope.getBuyerId() != null
+                && updatePointsEnvelope.isValid()
+                && updatePointsEnvelope.getCommunicationType().equals("request")){
             UpdatePointsEnvelope response = new UpdatePointsEnvelope();
             response.setPoints(updatePointsEnvelope.getPoints() * serviceConfig.pointRatio);
             response.setBuyerId(updatePointsEnvelope.getBuyerId());
@@ -53,12 +59,12 @@ public class MessageListener {
             response.setCommunicationType("success");
             response.setValid(true);
 
-
             sender.sendRequestMessage(
                     gson.toJson(response),
                     "orchestrator",
                     RabbitmqConfig.ROUTING_UPDATEPOINT_RESPONSE,
-                    "t-point-orc-01"
+                    "t-point-orc-01",
+                    "4"
             );
 
             System.out.println("Success!!" + updatePointsEnvelope);
@@ -66,18 +72,29 @@ public class MessageListener {
 
     }
 
-    public void compensatingProcess(UpdatePointsEnvelope updatePointsEnvelope){
-        // TODO:
-        System.out.println("In compensating process branch");
-        updatePointsEnvelope.setCommunicationType("rollback");
+    private void sendFailResult(UpdatePointsEnvelope updatePointsEnvelope) {
+        updatePointsEnvelope.setCommunicationType("fail");
+        System.out.println("send fail result");
         sender.sendRequestMessage(
                 gson.toJson(updatePointsEnvelope),
                 "orchestrator",
                 RabbitmqConfig.ROUTING_UPDATEPOINT_RESPONSE,
-                serviceConfig.name
+                "t-point-orc-02",
+                "9"
         );
+    }
 
 
+    public void compensatingProcess(UpdatePointsEnvelope updatePointsEnvelope){
+        System.out.println("In compensating process branch");
+        repo.deleteByPaymentId(updatePointsEnvelope.getPaymentId());
+        sender.sendRequestMessage(
+                gson.toJson(updatePointsEnvelope),
+                "orchestrator",
+                RabbitmqConfig.ROUTING_UPDATEPOINT_RESPONSE,
+                "t-point-orc-03",
+                "11"
+        );
     }
 
 

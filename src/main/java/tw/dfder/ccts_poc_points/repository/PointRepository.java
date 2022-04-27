@@ -10,4 +10,6 @@ public interface PointRepository extends MongoRepository<UpdatePointsEnvelope,St
     UpdatePointsEnvelope findByPaymentId(String pid);
     UpdatePointsEnvelope findByBuyerId(String bid);
 
+    UpdatePointsEnvelope deleteByPaymentId(String pid);
+
 }
